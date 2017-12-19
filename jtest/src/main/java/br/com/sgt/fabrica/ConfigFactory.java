@@ -1,4 +1,4 @@
-package br.com.jtest.fabrica;
+package br.com.sgt.fabrica;
 
 import javax.enterprise.inject.Produces;
 import org.quartz.Scheduler;

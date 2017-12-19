@@ -1,6 +1,6 @@
-package br.com.jtest.config;
+package br.com.sgt.config;
 
-import br.com.jtest.application.Application;
+import br.com.sgt.application.Application;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 

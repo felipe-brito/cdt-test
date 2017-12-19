@@ -1,8 +1,8 @@
-package br.com.jtest.application;
+package br.com.sgt.application;
 
-import br.com.jtest.SchedulerTest;
-import br.com.jtest.agendador.AgendadorSingleton;
-import br.com.jtest.agendador.AgendadorWrapper;
+import br.com.sgt.SchedulerTest;
+import br.com.sgt.agendador.AgendadorSingleton;
+import br.com.sgt.agendador.AgendadorWrapper;
 import javax.inject.Inject;
 
 /**
@@ -27,7 +27,8 @@ public class Application {
         wrapper.setNomeGatilho("TesteGatilho");
 
         agendadorServiceSingleton.agendar(wrapper);
-//        agendadorServiceSingleton.iniciar();
+        agendadorServiceSingleton.iniciar();
+
     }
 
 }
