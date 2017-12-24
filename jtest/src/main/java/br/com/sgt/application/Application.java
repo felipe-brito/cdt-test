@@ -1,8 +1,6 @@
 package br.com.sgt.application;
 
-import br.com.sgt.SchedulerTest;
-import br.com.sgt.agendador.AgendadorSingleton;
-import br.com.sgt.agendador.AgendadorWrapper;
+import br.com.sgt.gui.InicioUI;
 import javax.inject.Inject;
 
 /**
@@ -13,21 +11,26 @@ import javax.inject.Inject;
  */
 public class Application {
 
+//    @Inject
+//    private AgendadorSingleton agendadorServiceSingleton;
+//
+//    @Inject
+//    private AgendadorWrapper wrapper;
+//
     @Inject
-    private AgendadorSingleton agendadorServiceSingleton;
-
-    @Inject
-    private AgendadorWrapper wrapper;
-
+    private InicioUI inicioUI;
+    
     public void run() {
 
-        wrapper.setExpressaoCron("0/10 * * * * ?");
-        wrapper.setClasse(SchedulerTest.class);
-        wrapper.setNomeAgendador("TesteAgendador");
-        wrapper.setNomeGatilho("TesteGatilho");
+//        wrapper.setExpressaoCron("0/10 * * * * ?");
+//        wrapper.setClasse(SchedulerTest.class);
+//        wrapper.setNomeAgendador("TesteAgendador");
+//        wrapper.setNomeGatilho("TesteGatilho");
+//
+//        agendadorServiceSingleton.agendar(wrapper);
+//        agendadorServiceSingleton.iniciar();
 
-        agendadorServiceSingleton.agendar(wrapper);
-        agendadorServiceSingleton.iniciar();
+        inicioUI.init();
 
     }
 
