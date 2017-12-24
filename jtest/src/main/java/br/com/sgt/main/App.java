@@ -1,6 +1,6 @@
-package br.com.jtest.main;
+package br.com.sgt.main;
 
-import br.com.jtest.config.ConfigCDI;
+import br.com.sgt.config.ConfigCDI;
 import org.quartz.SchedulerException;
 
 /**

@@ -1,4 +1,4 @@
-package br.com.jtest.agendador;
+package br.com.sgt.agendador;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
