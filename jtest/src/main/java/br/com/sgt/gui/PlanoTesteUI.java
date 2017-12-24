@@ -1,15 +1,18 @@
 package br.com.sgt.gui;
 
 import br.com.sgt.controller.ListenerController;
+import br.com.sgt.entidades.Headers;
 import br.com.sgt.entidades.Request;
 import br.com.sgt.enums.ChavesMapas;
 import br.com.sgt.enums.TipoArquivoImportacao;
 import br.com.sgt.exception.LogTraceException;
+import br.com.sgt.model.TabelaHeadersModel;
 import br.com.sgt.model.TabelaRequestModel;
 import br.com.sgt.servico.ImportacaoServico;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -38,6 +41,11 @@ public class PlanoTesteUI extends javax.swing.JDialog {
 
     @Inject
     private TabelaRequestModel requestModel;
+    
+    @Inject
+    private TabelaHeadersModel headersModel;
+
+    private Map<ChavesMapas, Object> importacoes;
     
     /**
      * Creates new form PlanoTesteUI
@@ -94,6 +102,11 @@ public class PlanoTesteUI extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Descrição", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -233,6 +246,11 @@ public class PlanoTesteUI extends javax.swing.JDialog {
         gerar.setBackground(new java.awt.Color(102, 255, 102));
         gerar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         gerar.setText("Gerar");
+        gerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerarActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Scheduler", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -272,6 +290,11 @@ public class PlanoTesteUI extends javax.swing.JDialog {
         cancelar.setBackground(new java.awt.Color(255, 102, 102));
         cancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cancelar.setText("Cancelar");
+        cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarActionPerformed(evt);
+            }
+        });
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Log", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -371,6 +394,20 @@ public class PlanoTesteUI extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_importarActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        clean();
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        clean();
+        //cancelar teste
+    }//GEN-LAST:event_cancelarActionPerformed
+
+    private void gerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarActionPerformed
+        //gerar teste        
+    }//GEN-LAST:event_gerarActionPerformed
+
     private void processarImportacao(final File file) {
         new Thread(() -> {
 
@@ -382,9 +419,10 @@ public class PlanoTesteUI extends javax.swing.JDialog {
             });
 
             try {
-                
-                Map<ChavesMapas, Object> importacoes = this.leituraArquivo.importarRquests(file);
-                montarTabela((List<Request>) importacoes.get(ChavesMapas.REQUEST));
+
+                importacoes = this.leituraArquivo.importarRquests(file);
+                montarTabelaRequests((List<Request>) importacoes.get(ChavesMapas.REQUEST));
+                montarTabelaHeaders((Set<Headers>) importacoes.get(ChavesMapas.HEADERS));
                 
             } catch (LogTraceException ex) {
                 Logger.getLogger(PlanoTesteUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,11 +455,27 @@ public class PlanoTesteUI extends javax.swing.JDialog {
     private javax.swing.JTable requestTeste;
     // End of variables declaration//GEN-END:variables
 
-    private void montarTabela(List<Request> requests){
-        
+    private void montarTabelaRequests(List<Request> requests) {
+
         this.requestModel.add(requests);
         this.requestTeste.setModel(this.requestModel);
         this.requestTeste.updateUI();
+
+    }
+    
+    private void montarTabelaHeaders(Set<Headers> headerses) {
+
+        this.headersModel.add(headerses);
+        this.headersTeste.setModel(this.headersModel);
+        this.headersTeste.updateUI();
+
+    }
+    
+    private void clean(){
+        ((TabelaRequestModel)this.requestTeste.getModel()).clean();
+        this.requestTeste.updateUI();
         
+        ((TabelaHeadersModel)this.headersTeste.getModel()).clean();
+        this.headersTeste.updateUI();
     }
 }

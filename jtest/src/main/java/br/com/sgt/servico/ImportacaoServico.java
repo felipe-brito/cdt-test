@@ -2,6 +2,7 @@ package br.com.sgt.servico;
 
 import br.com.sgt.controller.ListenerController;
 import br.com.sgt.controller.ListenerImportacaoResponse;
+import br.com.sgt.entidades.Headers;
 import br.com.sgt.entidades.Request;
 import br.com.sgt.enums.ChavesMapas;
 import static br.com.sgt.enums.MensagensExceptionSGT.*;
@@ -48,6 +49,7 @@ public class ImportacaoServico {
 
         ListenerImportacaoResponse importacaoResponse = new ListenerImportacaoResponse(0, 0, 0, 0, StatusBarraProgresso.START);
         List<Request> requests = Lists.newArrayList();
+        Set<Headers> cabecalhos = Sets.newHashSet();
         Set<String> headers = Sets.newHashSet();
         Map<ChavesMapas, Object> mapa = Maps.newConcurrentMap();
         int count = 0, erro = 0, sucesso = 0;
@@ -103,8 +105,12 @@ public class ImportacaoServico {
                 notificarBarraProgresso(importacaoResponse, sucesso, erro, count, StatusBarraProgresso.START);
             }
 
+            headers.forEach((header) -> {
+                cabecalhos.add(new Headers(header));
+            });
+            
             mapa.put(ChavesMapas.REQUEST, requests);
-            mapa.put(ChavesMapas.HEADERS, headers);
+            mapa.put(ChavesMapas.HEADERS, cabecalhos);
 
             notificarBarraProgresso(importacaoResponse, sucesso, erro, CEM, status);
 

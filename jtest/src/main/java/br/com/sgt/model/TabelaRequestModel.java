@@ -3,6 +3,7 @@ package br.com.sgt.model;
 import br.com.sgt.entidades.Request;
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -16,12 +17,22 @@ public class TabelaRequestModel extends AbstractTableModel{
     private Request request;
     
     public TabelaRequestModel(){
-        columns = new String[]{"Selecionado", "Método", "Path", };
+        columns = new String[]{"Selecionado", "Método", "Path"};
         requests = Lists.newArrayList();
+    }
+    
+    public void clean(){
+        this.requests.clear();
     }
     
     public void add(List<Request> requests){
         this.requests.addAll(requests);
+    }
+
+    
+    public List<Request> getSelecionados(){
+        
+        return this.requests.stream().filter(r -> r.getSelecionado()).collect(Collectors.toList());
     }
     
     @Override
