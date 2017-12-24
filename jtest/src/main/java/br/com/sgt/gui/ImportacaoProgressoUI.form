@@ -109,10 +109,8 @@
                   <Component id="barraProgressoImportacao" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="stop" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="pause" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="pause" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="stop" min="-2" max="-2" attributes="0"/>
                       <Component id="resume" alignment="0" max="32767" attributes="0"/>
                       <Component id="finalizar" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
