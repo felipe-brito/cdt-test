@@ -1,6 +1,6 @@
 package br.com.sgt.model;
 
-import br.com.sgt.entidades.Request;
+import br.com.sgt.entidades.Requisicao;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,31 +10,32 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Felipe de Brito Lira
  */
-public class TabelaRequestModel extends AbstractTableModel{
+public class RequisicaoTabelaModel extends AbstractTableModel {
 
-    private final String[] columns; 
-    private final List<Request> requests;
-    private Request request;
-    
-    public TabelaRequestModel(){
+    private final String[] columns;
+    private final List<Requisicao> requests;
+    private Requisicao request;
+
+    public RequisicaoTabelaModel() {
         columns = new String[]{"Selecionado", "Método", "Path"};
         requests = Lists.newArrayList();
     }
-    
-    public void clean(){
-        this.requests.clear();
+
+    public void clean() {
+        if (this.requests != null && !this.requests.isEmpty()) {
+            this.requests.clear();
+        }
     }
-    
-    public void add(List<Request> requests){
+
+    public void add(List<Requisicao> requests) {
         this.requests.addAll(requests);
     }
 
-    
-    public List<Request> getSelecionados(){
-        
+    public List<Requisicao> getSelecionados() {
+
         return this.requests.stream().filter(r -> r.getSelecionado()).collect(Collectors.toList());
     }
-    
+
     @Override
     public int getRowCount() {
         return requests.size();
@@ -62,21 +63,25 @@ public class TabelaRequestModel extends AbstractTableModel{
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        this.requests.get(rowIndex).setSelecionado((Boolean)aValue);
+        this.requests.get(rowIndex).setSelecionado((Boolean) aValue);
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        
+
         this.request = this.requests.get(rowIndex);
-        
-        switch(columnIndex){
-            case 0: return this.request.getSelecionado();
-            case 1: return this.request.getMethod();
-            case 2: return this.request.getPath();
-            default: return "Não identificado";
+
+        switch (columnIndex) {
+            case 0:
+                return this.request.getSelecionado();
+            case 1:
+                return this.request.getMethod();
+            case 2:
+                return this.request.getPath();
+            default:
+                return "Não identificado";
         }
-        
+
     }
-    
+
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListenerImportacaoResponse implements Serializable{
+public class ImportacaoResponse implements Serializable{
         
     private Integer totalImportacoes;
     

@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(of = {"chave"})
-public class Request {
+public class Requisicao {
 
     private String chave;
     
@@ -27,7 +27,7 @@ public class Request {
     
     private Boolean selecionado;
     
-    public Request(){
+    public Requisicao(){
         selecionado = Boolean.TRUE;
     }
     

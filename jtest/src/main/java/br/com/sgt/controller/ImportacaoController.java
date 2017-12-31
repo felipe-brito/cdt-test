@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Singleton
 @Data
-public class ListenerController {
+public class ImportacaoController {
     
     private List<ImportacaoListener> importacaoListener;
     private Boolean pauseImportacao;
@@ -21,11 +21,9 @@ public class ListenerController {
     private Boolean confirmarImportacao;
     
     @PostConstruct
-    private void init(){
+    public void init(){
         this.importacaoListener = Lists.newArrayList();
-        pauseImportacao = Boolean.FALSE;
-        cancelarImportacao = Boolean.FALSE;
-        confirmarImportacao = Boolean.TRUE;
+        zerarControlesImportacao();
     }
     
     /**
@@ -73,6 +71,12 @@ public class ListenerController {
         this.pauseImportacao = Boolean.FALSE;
         this.cancelarImportacao = Boolean.FALSE;
         this.confirmarImportacao = Boolean.TRUE;
+    }
+    
+    public void clean(){
+        if(this.importacaoListener != null){
+            this.importacaoListener.clear();
+        }
     }
     
 }

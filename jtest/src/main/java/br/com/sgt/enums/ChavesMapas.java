@@ -7,6 +7,7 @@ package br.com.sgt.enums;
 public enum ChavesMapas {
     
     REQUEST,
-    HEADERS
+    HEADERS,
+    CANCELADO
     
 }

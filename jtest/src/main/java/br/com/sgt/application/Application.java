@@ -1,7 +1,8 @@
 package br.com.sgt.application;
 
-import br.com.sgt.gui.InicioUI;
+import br.com.sgt.gui.TelaPrincipalUI;
 import javax.inject.Inject;
+import org.apache.log4j.BasicConfigurator;
 
 /**
  *
@@ -11,25 +12,12 @@ import javax.inject.Inject;
  */
 public class Application {
 
-//    @Inject
-//    private AgendadorSingleton agendadorServiceSingleton;
-//
-//    @Inject
-//    private AgendadorWrapper wrapper;
-//
     @Inject
-    private InicioUI inicioUI;
+    private TelaPrincipalUI inicioUI;
     
     public void run() {
 
-//        wrapper.setExpressaoCron("0/10 * * * * ?");
-//        wrapper.setClasse(SchedulerTest.class);
-//        wrapper.setNomeAgendador("TesteAgendador");
-//        wrapper.setNomeGatilho("TesteGatilho");
-//
-//        agendadorServiceSingleton.agendar(wrapper);
-//        agendadorServiceSingleton.iniciar();
-
+        BasicConfigurator.configure();
         inicioUI.init();
 
     }

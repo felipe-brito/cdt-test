@@ -15,15 +15,15 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
  *
  * @author Felipe de Brito Lira <felipedebritolira@gmail.com>
  */
-public class InicioUI extends javax.swing.JFrame {
+public class TelaPrincipalUI extends javax.swing.JFrame {
 
     @Inject
-    private PlanoTesteUI planoTesteUI;
+    private TelaPlanoTestePIERUI planoTesteUI;
     
     /**
      * Creates new form InicioUI
      */
-    public InicioUI() {
+    public TelaPrincipalUI() {
         initComponents();
         initiView();
     }

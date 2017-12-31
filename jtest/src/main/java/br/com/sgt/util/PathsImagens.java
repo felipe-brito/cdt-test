@@ -11,7 +11,7 @@ import lombok.Data;
 public class PathsImagens {
     
     @Inject
-    private SGTProperties sGTProperties;
+    private Propriedades sGTProperties;
     
     private final String IMAGEM_BASE = "imagens";
     private final String IMAGEM_SUCESSO = "sucesso.png";

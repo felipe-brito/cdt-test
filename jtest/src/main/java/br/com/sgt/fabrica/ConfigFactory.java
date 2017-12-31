@@ -1,6 +1,6 @@
 package br.com.sgt.fabrica;
 
-import br.com.sgt.util.SGTProperties;
+import br.com.sgt.util.Propriedades;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -57,7 +57,7 @@ public class ConfigFactory {
      * @return
      */
     @Produces
-    public SGTProperties producesSGTProperties() {
+    public Propriedades producesSGTProperties() {
         try {
             //ajustar para leitura fora do contexto da aplicação
             List<String> json = Files.readAllLines(Paths.get(getClass().getResource("/properties/propriedades.json").toURI()));
@@ -68,7 +68,7 @@ public class ConfigFactory {
                 sb.append(str);
             });
 
-            return new Gson().fromJson(sb.toString(), SGTProperties.class);
+            return new Gson().fromJson(sb.toString(), Propriedades.class);
 
         } catch (IOException | URISyntaxException ex) {
             return null;

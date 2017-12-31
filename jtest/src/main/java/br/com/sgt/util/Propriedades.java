@@ -1,7 +1,6 @@
 package br.com.sgt.util;
 
 import java.io.Serializable;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @AllArgsConstructor
-public class SGTProperties implements Serializable{
+public class Propriedades implements Serializable{
     
     private Sistema sistema;
     private Json json;
@@ -30,7 +29,6 @@ public class SGTProperties implements Serializable{
     public class Json implements Serializable{
         
         private String startWith;
-        private List<String> pathsExclused;
         
     }
     

@@ -3,7 +3,6 @@
         "separator": "/"
     },
     "json": {
-        "startWith": "{",
-        "pathsExclused":["POST"]
+        "startWith": "{"
     }
 }

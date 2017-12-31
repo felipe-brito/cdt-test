@@ -1,13 +1,13 @@
 package br.com.sgt.gui;
 
-import br.com.sgt.controller.ListenerController;
-import br.com.sgt.entidades.Headers;
-import br.com.sgt.entidades.Request;
+import br.com.sgt.controller.ImportacaoController;
+import br.com.sgt.entidades.Cabecalho;
+import br.com.sgt.entidades.Requisicao;
 import br.com.sgt.enums.ChavesMapas;
 import br.com.sgt.enums.TipoArquivoImportacao;
 import br.com.sgt.exception.LogTraceException;
-import br.com.sgt.model.TabelaHeadersModel;
-import br.com.sgt.model.TabelaRequestModel;
+import br.com.sgt.model.CabecalhoTabelModel;
+import br.com.sgt.model.RequisicaoTabelaModel;
 import br.com.sgt.servico.ImportacaoServico;
 import java.io.File;
 import java.util.List;
@@ -20,37 +20,38 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author Felipe de Brito Lira
  */
-public class PlanoTesteUI extends javax.swing.JDialog {
+public class TelaPlanoTestePIERUI extends javax.swing.JDialog {
 
     @Inject
     private ImportacaoServico leituraArquivo;
 
     @Inject
-    private ImportacaoProgressoUI importacaoProgressoUI;
+    private TelaProgressoImportacaoUI importacaoProgressoUI;
 
     @Inject
-    private ListenerController listenerController;
+    private ImportacaoController listenerController;
 
     @Inject
     private JFileChooser chooser;
 
     @Inject
-    private TabelaRequestModel requestModel;
-    
+    private RequisicaoTabelaModel requestModel;
+
     @Inject
-    private TabelaHeadersModel headersModel;
+    private CabecalhoTabelModel headersModel;
 
     private Map<ChavesMapas, Object> importacoes;
-    
+
     /**
      * Creates new form PlanoTesteUI
      */
-    public PlanoTesteUI() {
+    public TelaPlanoTestePIERUI() {
         initComponents();
         initView();
     }
@@ -243,8 +244,8 @@ public class PlanoTesteUI extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        gerar.setBackground(new java.awt.Color(102, 255, 102));
-        gerar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        gerar.setBackground(new java.awt.Color(204, 255, 204));
+        gerar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         gerar.setText("Gerar");
         gerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,8 +288,8 @@ public class PlanoTesteUI extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cancelar.setBackground(new java.awt.Color(255, 102, 102));
-        cancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cancelar.setBackground(new java.awt.Color(255, 153, 153));
+        cancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,7 +402,7 @@ public class PlanoTesteUI extends javax.swing.JDialog {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         clean();
-        //cancelar teste
+        this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void gerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarActionPerformed
@@ -409,7 +410,7 @@ public class PlanoTesteUI extends javax.swing.JDialog {
     }//GEN-LAST:event_gerarActionPerformed
 
     private void processarImportacao(final File file) {
-        new Thread(() -> {
+        Thread processo = new Thread(() -> {
 
             this.listenerController.addImportacaoObserver(importacaoProgressoUI);
             this.listenerController.zerarControlesImportacao();
@@ -421,14 +422,20 @@ public class PlanoTesteUI extends javax.swing.JDialog {
             try {
 
                 importacoes = this.leituraArquivo.importarRquests(file);
-                montarTabelaRequests((List<Request>) importacoes.get(ChavesMapas.REQUEST));
-                montarTabelaHeaders((Set<Headers>) importacoes.get(ChavesMapas.HEADERS));
                 
+                if ( !((Boolean) importacoes.get(ChavesMapas.CANCELADO)) ) {
+                    montarTabelaRequests((List<Requisicao>) importacoes.get(ChavesMapas.REQUEST));
+                    montarTabelaHeaders((Set<Cabecalho>) importacoes.get(ChavesMapas.HEADERS));
+                }
+
             } catch (LogTraceException ex) {
-                Logger.getLogger(PlanoTesteUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaPlanoTestePIERUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }).start();
+        });
+
+        processo.start();
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -455,27 +462,36 @@ public class PlanoTesteUI extends javax.swing.JDialog {
     private javax.swing.JTable requestTeste;
     // End of variables declaration//GEN-END:variables
 
-    private void montarTabelaRequests(List<Request> requests) {
-
-        this.requestModel.add(requests);
-        this.requestTeste.setModel(this.requestModel);
-        this.requestTeste.updateUI();
+    private void montarTabelaRequests(List<Requisicao> requests) {
+        if (requests != null && !requests.isEmpty()) {
+            this.requestModel.add(requests);
+            this.requestTeste.setModel(this.requestModel);
+            this.requestTeste.updateUI();
+        }
 
     }
-    
-    private void montarTabelaHeaders(Set<Headers> headerses) {
+
+    private void montarTabelaHeaders(Set<Cabecalho> headerses) {
 
         this.headersModel.add(headerses);
         this.headersTeste.setModel(this.headersModel);
         this.headersTeste.updateUI();
 
     }
-    
-    private void clean(){
-        ((TabelaRequestModel)this.requestTeste.getModel()).clean();
-        this.requestTeste.updateUI();
-        
-        ((TabelaHeadersModel)this.headersTeste.getModel()).clean();
-        this.headersTeste.updateUI();
+
+    private void clean() {
+
+        TableModel modeRequisicao = this.requestTeste.getModel();
+        if (modeRequisicao instanceof RequisicaoTabelaModel) {
+            ((RequisicaoTabelaModel) modeRequisicao).clean();
+            this.requestTeste.updateUI();
+        }
+
+        TableModel modeCabecalho = this.headersTeste.getModel();
+        if (modeCabecalho instanceof CabecalhoTabelModel) {
+            ((CabecalhoTabelModel) modeCabecalho).clean();
+            this.headersTeste.updateUI();
+        }
+
     }
 }
